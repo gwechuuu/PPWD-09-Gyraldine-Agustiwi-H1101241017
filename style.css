@@ -1,0 +1,354 @@
+/* =========================================
+   VARIABEL WARNA & RESET DASAR
+========================================= */
+:root {
+    --primary-purple: #9333ea; /* Warna ungu cerah */
+    --dark-purple: #6b21a8;
+    --light-purple: #f3e8ff;
+    --soft-border: #d8b4fe;
+    --text-color: #3b0764;
+    --error-color: #e11d48;
+    --success-color: #16a34a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Kustomisasi Scrollbar agar imut */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--light-purple);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--soft-border);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-purple);
+}
+
+body {
+    background-color: #faf5ff;
+    background-image: radial-gradient(#e9d5ff 2px, transparent 2px);
+    background-size: 25px 25px;
+    color: var(--text-color);
+    padding: 30px 20px;
+}
+
+/* =========================================
+   LAYOUT UTAMA (CONTAINER & GRID)
+========================================= */
+.container {
+    max-width: 1200px; /* Diperlebar agar memenuhi layar laptop */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1.8fr 1.2fr; /* Porsi 60% Katalog, 40% Keranjang */
+    gap: 25px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Base Card Style */
+.card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    border: 3px solid var(--soft-border);
+    box-shadow: 0 10px 20px rgba(147, 51, 234, 0.08);
+}
+
+.card h2 {
+    font-size: 1.2rem;
+    color: var(--dark-purple);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* =========================================
+   HEADER & ANIMASI PITA
+========================================= */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+.header {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    border: 3px solid var(--soft-border);
+    box-shadow: 0 10px 20px rgba(147, 51, 234, 0.08);
+}
+
+.kitty-bow {
+    font-size: 2.5rem;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite; /* Pita melayang */
+    margin-bottom: 5px;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    color: var(--dark-purple);
+    letter-spacing: 1px;
+}
+
+.header p {
+    font-size: 0.95rem;
+    color: var(--primary-purple);
+    margin-top: 5px;
+}
+
+/* =========================================
+   KATALOG PRODUK (MUNGIL & CUTE)
+========================================= */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); /* Ukuran kartu lebih mungil */
+    gap: 18px;
+}
+
+.product-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    padding: 25px 15px 20px;
+    background-color: var(--light-purple);
+    border-radius: 24px;
+    border: 2px dashed var(--primary-purple); /* Gaya scrapbook */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; /* Untuk posisi aksen pita */
+}
+
+/* Aksen pita kecil di sudut kanan atas kartu */
+.product-item::before {
+    content: '🎀';
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 1.2rem;
+    opacity: 0.85;
+    transition: transform 0.3s ease;
+}
+
+/* Efek saat kartu disentuh (hover) */
+.product-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(147, 51, 234, 0.15);
+    background-color: #f5edff;
+}
+
+/* Pita bergoyang saat disentuh */
+.product-item:hover::before {
+    transform: scale(1.2) rotate(15deg);
+}
+
+.product-info {
+    margin-bottom: 18px;
+    z-index: 1;
+}
+
+.product-info h4 {
+    font-size: 0.95rem;
+    color: var(--dark-purple);
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+/* Harga bergaya stiker */
+.product-info span {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--primary-purple);
+    background-color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid var(--soft-border);
+    box-shadow: 0 2px 5px rgba(147, 51, 234, 0.05);
+}
+
+/* Tombol +Tambah bergaya 3D */
+.product-item .btn-add {
+    width: 100%;
+    margin-top: auto;
+    border-radius: 25px; /* Membulat */
+    box-shadow: 0 4px 0 var(--dark-purple); /* Ketebalan tombol ke bawah */
+    transition: all 0.1s ease; /* Transisi cepat saat diklik */
+}
+
+/* Tombol amblas ke dalam saat diklik */
+.product-item .btn-add:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 var(--dark-purple);
+}
+
+/* =========================================
+   KERANJANG BELANJA
+========================================= */
+.cart-list {
+    min-height: 150px;
+    max-height: 350px; /* Diperpanjang ke bawah */
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 5px;
+}
+
+.empty-cart {
+    text-align: center;
+    color: #a855f7;
+    font-size: 0.9rem;
+    margin-top: 50px;
+    font-style: italic;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--soft-border);
+    font-size: 0.85rem;
+}
+
+.cart-item-title {
+    font-weight: 600;
+    flex: 1;
+    padding-right: 10px;
+}
+
+.cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-qty {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-purple);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.btn-qty:active {
+    transform: scale(0.9);
+}
+
+.cart-summary {
+    background-color: var(--light-purple);
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    border: 1px dashed var(--soft-border);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.total-price {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--dark-purple);
+    text-align: right;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #9ca3af;
+    font-size: 0.85rem;
+    margin-right: 6px;
+}
+
+.discounted-price {
+    color: var(--primary-purple);
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+/* Efek detak jantung untuk badge diskon */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.badge-diskon {
+    display: inline-block;
+    background-color: #fbcfe8;
+    color: #9d174d;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+.discount-note {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--primary-purple);
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* =========================================
+   PENGATURAN TOMBOL UMUM
+========================================= */
+.btn {
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-purple {
+    background-color: var(--primary-purple);
+    color: white;
+}
+
+/* Menambahkan efek terangkat pada tombol selain tombol produk 3D */
+.btn-purple:hover:not(:disabled) {
+    background-color: var(--dark-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(147, 51, 234, 0.3);
+}
+
+/*
