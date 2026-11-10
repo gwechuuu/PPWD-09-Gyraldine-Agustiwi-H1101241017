@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dapur Pagi Bakery - Roti dan Kue Segar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="topbar">Pesan hari ini, ambil besok pagi. Gratis ongkir untuk belanja min. Rp150.000</div>
+
+    <header class="nav">
+        <div class="wrap nav-in">
+            <button class="burger" id="burger" aria-label="Buka menu">☰</button>
+            <a href="#hero" class="logo">Holland GeMan</a>
+            <nav id="menu" class="menu">
+                <a href="#hero">Beranda</a>
+                <div class="dd">
+                    <a href="#produk">Produk ▾</a>
+                    <div class="ddm" id="ddm"></div>
+                </div>
+                <a href="#promo">Promo</a>             
+                <a href="#cara">Cara Pesan</a>
+                <a href="#kontak">Kontak</a>
+            </nav>
+            <form class="search" id="sf" autocomplete="off">
+                <input id="q" type="search" placeholder="Cari roti atau kue..." aria-label="Cari produk">
+                <button aria-label="Cari">🔍</button>
+                <ul id="sug"></ul>
+            </form>
+            <button class="cartbtn" id="openCart" aria-label="Buka keranjang">🛒<span id="badge">0</span></button>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="wrap hero-in">
+                <div>
+                    <h1>Roti hangat dari oven, siap diambil atau diantar</h1>
+                    <p>Pilih roti dan kue favoritmu, atur tanggal ambil, lalu kirim pesanan lewat WhatsApp dalam satu
+                        menit.</p>
+                    <a href="#produk" class="btn gr">Lihat produk</a>
+                    <a href="#cara" class="btn ghost">Cara pesan</a>
+                </div>
+                <div class="hero-art" aria-hidden="true">🥐<span class="a1">🎂</span><span class="a2">🍞</span><span
+                        class="a3">🧁</span></div>
+            </div>
+        </section>
+
+        <section id="produk" class="sec">
+            <div class="wrap">
+                <h2>Katalog produk</h2>
+                <div class="toolbar">
+                    <div id="chips" class="chips"></div>
+                    <select id="sort" aria-label="Urutkan">
+                        <option value="def">Urutan awal</option>
+                        <option value="lo">Harga terendah</option>
+                        <option value="hi">Harga tertinggi</option>
+                        <option value="az">Nama A-Z</option>
+                    </select>
+                </div>
+                <p id="count" class="count"></p>
+                <div id="grid" class="grid"></div>
+            </div>
+        </section>
+
+        <section id="promo" class="sec alt">
+            <div class="wrap">
+                <h2>Promo dan voucher</h2>
+                <div class="promo">
+                    <div><b>BAKERY10</b>
+                        <p>Diskon 10% untuk semua pesanan.</p>
+                    </div>
+                    <div><b>Geman5</b>
+                        <p>Dapatkan Promo hingga Rp100.000. dengan menggunakan voucher ini.</p>
+                    </div>
+                    <div><b>Gratis ongkir</b>
+                        <p>Otomatis untuk pesanan antar min. Rp150.000.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cara" class="sec">
+            <div class="wrap">
+                <h2>Cara pesan</h2>
+                <ol class="steps">
+                    <li><b>Pilih produk</b><span>Cari lewat kolom pencarian atau kategori.</span></li>
+                    <li><b>Cek keranjang</b><span>Atur jumlah, tambah catatan, pakai voucher.</span></li>
+                    <li><b>Isi data</b><span>Pilih ambil atau antar, tanggal, dan jam.</span></li>
+                    <li><b>Kirim via WhatsApp</b><span>Pesananmu langsung terisi otomatis.</span></li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer id="kontak" class="foot">
+        <div class="wrap">
+            <b>Holland GeMan</b>
+            <p>Jl. Tanjung Raya 2, depan alfamart. Buka setiap hari 06.00 - 20.00. WhatsApp 085754673320</p>
+        </div>
+    </footer>
+
+    <div id="ov"></div>
+
+    <aside id="drawer" class="drawer" aria-label="Keranjang belanja">
+        <div class="dh">
+            <h2>Keranjang</h2><button class="x" data-close aria-label="Tutup">✕</button>
+        </div>
+        <ul id="items"></ul>
+        <div class="dv">
+            <div class="vc"><input id="vin" placeholder="Kode voucher"><button id="vbtn" type="button"
+                    class="btn pu">Pakai</button></div>
+            <p id="vmsg" class="vmsg"></p>
+            <div class="ln"><span>Subtotal</span><span id="sub"></span></div>
+            <div class="ln"><span>Diskon</span><span id="disc"></span></div>
+            <div class="ln big"><span>Total</span><span id="tot"></span></div>
+            <button id="toCheckout" class="btn gr full">Lanjut pesan</button>
+        </div>
+    </aside>
+
+    <div id="modal" class="modal"></div>
+
+    <div id="co" class="modal">
+        <button class="x" data-close aria-label="Tutup">✕</button>
+        <form id="form" novalidate>
+            <h2>Data pemesanan</h2>
+            <label>Nama<input name="nama" autocomplete="name"></label>
+            <label>No. WhatsApp<input name="wa" inputmode="tel" placeholder="08123456789"></label>
+            <div class="seg">
+                <label><input type="radio" name="mode" value="ambil" checked> Ambil di toko</label>
+                <label><input type="radio" name="mode" value="antar"> Diantar</label>
+            </div>
+            <label id="addr" hidden>Alamat lengkap<textarea name="alamat" rows="2"></textarea></label>
+            <div class="two">
+                <label>Tanggal<input type="date" name="tgl"></label>
+                <label>Jam<select name="jam"></select></label>
+            </div>
+            <label>Pembayaran
+                <select name="bayar">
+                    <option>Transfer bank</option>
+                    <option>QRIS</option>
+                    <option>Bayar di tempat</option>
+                </select>
+            </label>
+            <div class="sum" id="sum"></div>
+            <p id="err" class="err"></p>
+            <button class="btn gr full">Buat pesanan</button>
+        </form>
+        <div id="done" hidden></div>
+    </div>
+
+    <div id="toasts"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

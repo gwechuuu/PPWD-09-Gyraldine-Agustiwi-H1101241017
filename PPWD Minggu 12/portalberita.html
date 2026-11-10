@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sinyal Harian - Kabar Teknologi Setiap Hari</title>
+
+  <!-- Bootstrap 5 CSS via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <!-- Font gemas (ada fallback kalau offline) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap">
+
+  <style>
+    :root {
+      --pink: #ff6fb5;
+      --pink-soft: #ffe4f2;
+      --ungu: #7c3aed;
+      --ungu-tua: #3b0764;
+      --ungu-soft: #efe5ff;
+      --teks: #3a2150;
+    }
+
+    body {
+      font-family: "Nunito", system-ui, sans-serif;
+      color: var(--teks);
+      background: linear-gradient(180deg, #fff5fb 0%, #f5eeff 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, h5, h6, .navbar-brand {
+      font-family: "Baloo 2", "Nunito", system-ui, sans-serif;
+    }
+
+    /* Navbar & footer: class bg-dark tetap dipakai sesuai soal, tampilannya diubah jadi gradasi ungu-pink */
+    .navbar-gemas,
+    .footer-gemas {
+      background-image: linear-gradient(90deg, var(--ungu-tua), #7e22ce 55%, #c026d3);
+    }
+
+    .navbar-brand .logo-dot {
+      display: inline-block;
+      width: .6rem;
+      height: .6rem;
+      border-radius: 50%;
+      background: var(--pink);
+      margin-left: .15rem;
+    }
+
+    .navbar .nav-link.active {
+      color: var(--pink);
+      font-weight: 700;
+    }
+
+    /* Hero: gradasi gelap */
+    .hero {
+      background:
+        radial-gradient(circle at 85% 20%, rgba(255, 111, 181, .55), transparent 45%),
+        radial-gradient(circle at 10% 90%, rgba(124, 58, 237, .6), transparent 50%),
+        linear-gradient(135deg, #2a0a4a, #4c1d95 55%, #831843);
+      color: #fff;
+      border-radius: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero .hero-emoji {
+      font-size: 5rem;
+      line-height: 1;
+    }
+
+    .hero h1 {
+      font-weight: 800;
+      font-size: clamp(1.7rem, 4.5vw, 2.8rem);
+    }
+
+    .btn-gemas {
+      background: var(--pink);
+      border: 0;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 50rem;
+      padding: .55rem 1.4rem;
+    }
+
+    .btn-gemas:hover,
+    .btn-gemas:focus-visible {
+      background: #ff4fa3;
+      color: #fff;
+    }
+
+    .btn-outline-gemas {
+      border: 2px solid var(--ungu);
+      color: var(--ungu);
+      font-weight: 700;
+      border-radius: 50rem;
+    }
+
+    .btn-outline-gemas:hover,
+    .btn-outline-gemas:focus-visible {
+      background: var(--ungu);
+      color: #fff;
+    }
+
+    /* Judul section */
+    .judul-section {
+      font-weight: 800;
+      color: var(--ungu);
+      border-left: .4rem solid var(--pink);
+      padding-left: .75rem;
+    }
+
+    /* Kartu */
+    .kartu {
+      background: #fff;
+      border: 2px solid var(--pink-soft);
+      border-radius: 1.25rem;
+      box-shadow: 0 .4rem 1rem rgba(124, 58, 237, .08);
+      overflow: hidden;
+    }
+
+    .thumb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
+
+    .thumb-utama { height: 14rem; background: linear-gradient(135deg, #ffd1ea, #d9c2ff); }
+    .thumb-1 { height: 8rem; background: linear-gradient(135deg, #ffd1ea, #ffb3d9); }
+    .thumb-2 { height: 8rem; background: linear-gradient(135deg, #e3d1ff, #c4a5ff); }
+    .thumb-3 { height: 8rem; background: linear-gradient(135deg, #ffe0f0, #e6c8ff); }
+    .thumb-4 { height: 8rem; background: linear-gradient(135deg, #d9c2ff, #ffb3d9); }
+
+    .badge-kategori {
+      background: var(--ungu-soft);
+      color: var(--ungu);
+      font-weight: 700;
+      border-radius: 50rem;
+    }
+
+    .badge-kategori.pink {
+      background: var(--pink-soft);
+      color: #c2185b;
+    }
+
+    .meta {
+      font-size: .85rem;
+      color: #8b6fa6;
+    }
+
+    /* Sidebar trending */
+    .trending-item {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      padding: .75rem 0;
+      border-bottom: 2px dashed var(--pink-soft);
+    }
+
+    .trending-item:last-child {
+      border-bottom: 0;
+    }
+
+    .trending-no {
+      flex: 0 0 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--ungu);
+      color: #fff;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .trending-item:nth-child(1) .trending-no { background: var(--pink); }
+
+    .trending-item a {
+      color: var(--teks);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .trending-item a:hover,
+    .trending-item a:focus-visible {
+      color: var(--ungu);
+      text-decoration: underline;
+    }
+
+    /* Kartu berita horizontal (thumbnail kiri, teks kanan) */
+    .berita-item .thumb {
+      height: 100%;
+      min-height: 9rem;
+      font-size: 3rem;
+    }
+
+    .berita-item h3 a,
+    .kartu h3 a {
+      color: var(--teks);
+      text-decoration: none;
+    }
+
+    .berita-item h3 a:hover,
+    .kartu h3 a:hover {
+      color: var(--ungu);
+    }
+
+    /* Chip kategori di bawah navbar */
+    .chip-kategori {
+      display: inline-block;
+      padding: .35rem 1rem;
+      border-radius: 50rem;
+      background: #fff;
+      border: 2px solid var(--pink-soft);
+      color: var(--ungu);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: .9rem;
+    }
+
+    .chip-kategori:hover,
+    .chip-kategori.aktif {
+      background: var(--ungu);
+      border-color: var(--ungu);
+      color: #fff;
+    }
+
+    .kategori-list a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .5rem 0;
+      color: var(--teks);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 2px dashed var(--pink-soft);
+    }
+
+    .kategori-list a:last-child { border-bottom: 0; }
+    .kategori-list a:hover { color: var(--ungu); }
+
+    .newsletter {
+      background: linear-gradient(135deg, #ffd1ea, #d9c2ff);
+      border: 0;
+    }
+
+    .pagination .page-link {
+      color: var(--ungu);
+      border: 2px solid var(--pink-soft);
+      margin: 0 .15rem;
+      border-radius: .75rem;
+      font-weight: 700;
+    }
+
+    .pagination .page-item.active .page-link {
+      background: var(--ungu);
+      border-color: var(--ungu);
+      color: #fff;
+    }
+
+    a:focus-visible, .btn:focus-visible, .navbar-toggler:focus-visible {
+      outline: 3px solid var(--pink);
+      outline-offset: 2px;
+    }
+
+    .footer-gemas a {
+      color: #ffd1ea;
+      text-decoration: none;
+    }
+
+    .footer-gemas a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    /* ====== Gambar berita ====== */
+    .foto {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: var(--pink-soft);
+    }
+
+    .hero .foto {
+      aspect-ratio: 4 / 3;
+      border: 4px solid rgba(255, 255, 255, .35);
+    }
+
+    .col-foto {
+      position: relative;
+      min-height: 11rem;
+    }
+
+    .col-foto .foto {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    /* ====== Strip kategori: geser di HP, rapi membungkus di layar besar ====== */
+    .strip-kategori {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: .6rem;
+      overflow-x: auto;
+      padding: .5rem .25rem .9rem;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+    }
+
+    .strip-kategori::-webkit-scrollbar { display: none; }
+
+    @media (min-width: 768px) {
+      .strip-kategori { flex-wrap: wrap; overflow: visible; }
+    }
+
+    .chip-kategori {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      scroll-snap-align: start;
+      font-family: inherit;
+      font-size: .95rem;
+      line-height: 1.4;
+      cursor: pointer;
+      background: #fff;
+      color: var(--ungu);
+      border: 2px solid var(--pink-soft);
+      transition: transform .25s cubic-bezier(.34, 1.56, .64, 1),
+                  box-shadow .25s, background .25s, color .25s, border-color .25s;
+      /* muncul satu per satu saat halaman dibuka */
+      animation: chipMasuk .55s cubic-bezier(.34, 1.56, .64, 1) backwards;
+      animation-delay: calc(var(--i) * 70ms);
+    }
+
+    .chip-kategori:hover {
+      background: var(--pink-soft);
+      color: var(--ungu);
+      border-color: var(--pink);
+      transform: translateY(-3px) scale(1.06);
+      box-shadow: 0 .5rem 1rem rgba(124, 58, 237, .2);
+    }
+
+    .chip-kategori:active { transform: scale(.94); }
+
+    .chip-kategori.aktif,
+    .chip-kategori.aktif:hover {
+      background: linear-gradient(135deg, var(--ungu), #c026d3);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 .4rem .9rem rgba(124, 58, 237, .3);
+    }
+
+    .chip-kategori.pop { animation: chipPop .45s ease; }
+
+    @keyframes chipMasuk {
+      from { opacity: 0; transform: translateY(14px) scale(.8); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @keyframes chipPop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+
+    /* Berita yang cocok dengan filter muncul dengan animasi naik */
+    .muncul { animation: munculNaik .45s ease both; }
+
+    @keyframes munculNaik {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .chip-kategori, .chip-kategori.pop, .muncul { animation: none; transition: none; }
+    }
+
+    /* ====== Carousel headline ====== */
+    .hero .carousel-indicators {
+      position: static;
+      margin: 1.5rem 0 0;
+      justify-content: center;
+    }
+
+    .hero .carousel-indicators [data-bs-target] {
+      width: .75rem;
+      height: .75rem;
+      border: 0;
+      border-radius: 50%;
+      background-color: #fff;
+      opacity: .45;
+      transition: width .3s, opacity .3s, background-color .3s;
+    }
+
+    .hero .carousel-indicators .active {
+      width: 2rem;
+      border-radius: 50rem;
+      background-color: var(--pink);
+      opacity: 1;
+    }
+
+    .hero .carousel-control-prev,
+    .hero .carousel-control-next {
+      width: 3rem;
+      opacity: .9;
+    }
+
+    .hero .carousel-control-prev-icon,
+    .hero .carousel-control-next-icon {
+      background-color: rgba(255, 255, 255, .2);
+      border-radius: 50%;
+      padding: 1.1rem;
+      background-size: 45%;
+    }
+  </style>
+  <script>
+    // Kalau gambar gagal dimuat (misalnya offline), tampilkan gambar cadangan bertema pink ungu
+    function gambarCadangan(img) {
+      img.onerror = null;
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">' +
+        '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0" stop-color="#ffb3d9"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>' +
+        '<rect width="800" height="450" fill="url(#g)"/>' +
+        '<text x="400" y="240" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="700" fill="#ffffff">Sinyal Harian</text></svg>';
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+  </script>
+</head>
+<body>
+
+  <!-- ============ HEADER / NAVBAR ============ -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-gemas sticky-top">
+    <div class="container">
+      <a class="navbar-brand fs-3 fw-bold" href="#">Sinyal Harian<span class="logo-dot"></span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menuUtama" aria-controls="menuUtama"
+              aria-expanded="false" aria-label="Buka menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menuUtama">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="#beranda">Beranda</a></li>
+          <li class="nav-item"><a class="nav-link" href="#berita-utama">Berita Utama</a></li>
+          <li class="nav-item"><a class="nav-link" href="#trending">Trending</a></li>
+          <li class="nav-item"><a class="nav-link" href="#terbaru">Terbaru</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+
+    <!-- ============ STRIP KATEGORI (filter berita) ============ -->
+    <div class="strip-kategori mb-3" role="group" aria-label="Filter kategori berita">
+      <button type="button" class="chip-kategori aktif" data-filter="Semua" style="--i:0" aria-pressed="true">Semua</button>
+      <button type="button" class="chip-kategori" data-filter="Gadget" style="--i:1" aria-pressed="false">Gadget</button>
+      <button type="button" class="chip-kategori" data-filter="AI" style="--i:2" aria-pressed="false">AI</button>
+      <button type="button" class="chip-kategori" data-filter="Keamanan" style="--i:3" aria-pressed="false">Keamanan</button>
+      <button type="button" class="chip-kategori" data-filter="Gim" style="--i:4" aria-pressed="false">Gim</button>
+      <button type="button" class="chip-kategori" data-filter="Startup" style="--i:5" aria-pressed="false">Startup</button>
+      <button type="button" class="chip-kategori" data-filter="Internet" style="--i:6" aria-pressed="false">Internet</button>
+      <button type="button" class="chip-kategori" data-filter="Edukasi" style="--i:7" aria-pressed="false">Edukasi</button>
+    </div>
+
+    <!-- ============ HEADLINE UTAMA (HERO) ============ -->
+    <div class="row mb-4" id="beranda">
+      <div class="col-12">
+        <div class="hero p-4 p-md-5">
+          <div id="carouselHeadline" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000" data-bs-pause="hover">
+            <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row align-items-center g-3 px-md-5">
+                <div class="col-12 col-md-7">
+                  <span class="badge badge-kategori pink mb-3">Headline hari ini: Teknologi</span>
+                  <h1 class="mb-3">Asisten Suara Lokal Kini Paham Bahasa Jawa, Sunda, dan Minang</h1>
+                  <p class="mb-4 fs-5">Pengembang Indonesia merilis fitur suara yang mengerti logat daerah dan bisa jalan di HP kelas menengah.</p>
+                  <a href="#berita-utama" class="btn btn-gemas">Baca selengkapnya</a>
+                </div>
+                <div class="col-12 col-md-5"><img class="foto rounded-4 shadow" src="https://loremflickr.com/600/450/robot?lock=41" alt="Robot asisten suara" onerror="gambarCadangan(this)"></div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row align-items-center g-3 px-md-5">
+                <div class="col-12 col-md-7">
+                  <span class="badge badge-kategori pink mb-3">Headline hari ini: Pendidikan</span>
+                  <h1 class="mb-3">Beasiswa Talenta Digital Dibuka untuk 10.000 Mahasiswa</h1>
+                  <p class="mb-4 fs-5">Program ini mencakup pelatihan pemrograman, analisis data, dan tata kelola TI, lengkap dengan magang di perusahaan mitra.</p>
+                  <a href="#berita-utama" class="btn btn-gemas">Baca selengkapnya</a>
+                </div>
+                <div class="col-12 col-md-5"><img class="foto rounded-4 shadow" src="https://loremflickr.com/600/450/student?lock=42" alt="Mahasiswa mengikuti pelatihan digital" onerror="gambarCadangan(this)"></div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row align-items-center g-3 px-md-5">
+                <div class="col-12 col-md-7">
+                  <span class="badge badge-kategori pink mb-3">Headline hari ini: Keamanan</span>
+                  <h1 class="mb-3">Kebocoran Data Ramai Dibahas, Ini Langkah Aman untuk Pengguna</h1>
+                  <p class="mb-4 fs-5">Pakar menyarankan ganti kata sandi, aktifkan verifikasi dua langkah, dan waspada pesan yang mengaku dari bank.</p>
+                  <a href="#berita-utama" class="btn btn-gemas">Baca selengkapnya</a>
+                </div>
+                <div class="col-12 col-md-5"><img class="foto rounded-4 shadow" src="https://loremflickr.com/600/450/security?lock=43" alt="Gembok digital di layar komputer" onerror="gambarCadangan(this)"></div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row align-items-center g-3 px-md-5">
+                <div class="col-12 col-md-7">
+                  <span class="badge badge-kategori pink mb-3">Headline hari ini: Event</span>
+                  <h1 class="mb-3">Pameran Teknologi Tahunan Hadirkan 200 Startup Lokal</h1>
+                  <p class="mb-4 fs-5">Pengunjung bisa mencoba langsung produk rintisan, mulai dari aplikasi logistik sampai perangkat rumah pintar.</p>
+                  <a href="#berita-utama" class="btn btn-gemas">Baca selengkapnya</a>
+                </div>
+                <div class="col-12 col-md-5"><img class="foto rounded-4 shadow" src="https://loremflickr.com/600/450/conference?lock=44" alt="Suasana pameran teknologi" onerror="gambarCadangan(this)"></div>
+              </div>
+            </div>
+            </div>
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselHeadline" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Headline 1"></button>
+              <button type="button" data-bs-target="#carouselHeadline" data-bs-slide-to="1" aria-label="Headline 2"></button>
+              <button type="button" data-bs-target="#carouselHeadline" data-bs-slide-to="2" aria-label="Headline 3"></button>
+              <button type="button" data-bs-target="#carouselHeadline" data-bs-slide-to="3" aria-label="Headline 4"></button>
+            </div>
+            <button class="carousel-control-prev d-none d-md-flex" type="button" data-bs-target="#carouselHeadline" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Headline sebelumnya</span>
+            </button>
+            <button class="carousel-control-next d-none d-md-flex" type="button" data-bs-target="#carouselHeadline" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Headline berikutnya</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ BERITA UTAMA + SIDEBAR ============ -->
+    <div class="row g-4 mb-5">
+
+      <!-- Berita Utama -->
+      <div class="col-12 col-lg-8" id="berita-utama">
+        <h2 class="judul-section h4 mb-3">Berita Utama</h2>
+
+        <article class="kartu mb-4" data-kategori="Gadget">
+          <img class="foto" src="https://loremflickr.com/800/450/smartphone?lock=11" alt="Ponsel lipat terbaru dipamerkan di meja kerja" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-4">
+            <span class="badge badge-kategori mb-2">Gadget</span>
+            <h3 class="h4">Ponsel Lipat Terjangkau Mulai Masuk Pasar Indonesia</h3>
+            <p class="meta mb-2">Oleh Redaksi Sinyal Harian, 27 Oktober 2026</p>
+            <p>Beberapa produsen mulai menawarkan ponsel lipat di bawah lima juta rupiah. Layar yang lebih awet dan engsel yang lebih tipis jadi alasan utama harganya turun, sehingga makin banyak pelajar dan pekerja muda yang tertarik mencobanya.</p>
+            <a href="#" class="btn btn-outline-gemas btn-sm">Lanjut baca</a>
+          </div>
+        </article>
+
+        <article class="kartu" data-kategori="Keamanan">
+          <img class="foto" src="https://loremflickr.com/800/450/password?lock=31" alt="Gembok dan kata sandi di layar" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-4">
+            <span class="badge badge-kategori pink mb-2">Keamanan Digital</span>
+            <h3 class="h4">Cara Mudah Mengamankan Akun dengan Verifikasi Dua Langkah</h3>
+            <p class="meta mb-2">Oleh Redaksi Sinyal Harian, 26 Oktober 2026</p>
+            <p class="mb-3">Satu kata sandi saja tidak cukup lagi. Verifikasi dua langkah bisa diaktifkan dalam hitungan menit dan membuat akun jauh lebih sulit dibobol, bahkan ketika kata sandi bocor.</p>
+            <a href="#" class="btn btn-outline-gemas btn-sm">Lanjut baca</a>
+          </div>
+        </article>
+
+        <!-- Berita utama lainnya (thumbnail kiri, teks kanan) -->
+        <article class="kartu berita-item mt-4" data-kategori="AI">
+          <div class="row g-0">
+            <div class="col-12 col-md-4 col-foto"><img class="foto" src="https://loremflickr.com/800/450/student?lock=12" alt="Mahasiswa berdiskusi dengan bantuan teknologi di kampus" loading="lazy" onerror="gambarCadangan(this)"></div>
+            <div class="col-12 col-md-8">
+              <div class="p-3 p-md-4">
+                <span class="badge badge-kategori mb-2">AI</span>
+                <h3 class="h5"><a href="#">Kampus Mulai Pakai Asisten AI untuk Membantu Bimbingan Skripsi</a></h3>
+                <p class="meta mb-2">Redaksi Sinyal Harian, 26 Oktober 2026</p>
+                <p class="mb-0">Sejumlah perguruan tinggi menguji asisten AI yang membantu mahasiswa menyusun kerangka tulisan dan mengecek format. Dosen tetap menjadi penilai akhir, sementara waktu bimbingan jadi lebih fokus ke isi.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="kartu berita-item mt-4" data-kategori="Startup">
+          <div class="row g-0">
+            <div class="col-12 col-md-4 col-foto"><img class="foto" src="https://loremflickr.com/800/450/truck?lock=13" alt="Truk pengiriman barang milik startup logistik" loading="lazy" onerror="gambarCadangan(this)"></div>
+            <div class="col-12 col-md-8">
+              <div class="p-3 p-md-4">
+                <span class="badge badge-kategori pink mb-2">Startup</span>
+                <h3 class="h5"><a href="#">Startup Logistik Pontianak Raih Pendanaan Awal Dua Puluh Miliar</a></h3>
+                <p class="meta mb-2">Redaksi Sinyal Harian, 25 Oktober 2026</p>
+                <p class="mb-0">Dana segar akan dipakai memperluas layanan pengiriman sungai dan darat di Kalimantan Barat. Aplikasinya melacak paket secara langsung dan menyasar pelaku usaha kecil.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="kartu berita-item mt-4" data-kategori="Edukasi">
+          <div class="row g-0">
+            <div class="col-12 col-md-4 col-foto"><img class="foto" src="https://loremflickr.com/800/450/coding?lock=14" alt="Layar laptop menampilkan kode program" loading="lazy" onerror="gambarCadangan(this)"></div>
+            <div class="col-12 col-md-8">
+              <div class="p-3 p-md-4">
+                <span class="badge badge-kategori mb-2">Edukasi</span>
+                <h3 class="h5"><a href="#">Belajar Coding dari Nol: Roadmap Enam Bulan untuk Pemula</a></h3>
+                <p class="meta mb-2">Redaksi Sinyal Harian, 24 Oktober 2026</p>
+                <p class="mb-0">Mulai dari HTML dan CSS, lanjut ke JavaScript, lalu framework seperti Bootstrap. Urutan belajar yang bertahap membuat pemula tidak kewalahan dan cepat punya portofolio.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="kartu berita-item mt-4" data-kategori="Internet">
+          <div class="row g-0">
+            <div class="col-12 col-md-4 col-foto"><img class="foto" src="https://loremflickr.com/800/450/tower?lock=15" alt="Menara jaringan telekomunikasi 5G" loading="lazy" onerror="gambarCadangan(this)"></div>
+            <div class="col-12 col-md-8">
+              <div class="p-3 p-md-4">
+                <span class="badge badge-kategori pink mb-2">Internet</span>
+                <h3 class="h5"><a href="#">Jaringan 5G Diperluas ke Lebih Banyak Kota di Luar Jawa</a></h3>
+                <p class="meta mb-2">Redaksi Sinyal Harian, 23 Oktober 2026</p>
+                <p class="mb-0">Operator menambah menara baru di kota-kota besar Sumatra dan Kalimantan. Kecepatan unduh naik signifikan, dan harga paket data diperkirakan ikut lebih bersaing.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="kartu berita-item mt-4" data-kategori="Gim">
+          <div class="row g-0">
+            <div class="col-12 col-md-4 col-foto"><img class="foto" src="https://loremflickr.com/800/450/esports?lock=51" alt="Tim esports bertanding di arena" loading="lazy" onerror="gambarCadangan(this)"></div>
+            <div class="col-12 col-md-8">
+              <div class="p-3 p-md-4">
+                <span class="badge badge-kategori pink mb-2">Gim</span>
+                <h3 class="h5"><a href="#">Turnamen Esports Antarkampus Dibuka, Total Hadiah Seratus Juta Rupiah</a></h3>
+                <p class="meta mb-2">Redaksi Sinyal Harian, 28 Oktober 2026</p>
+                <p class="mb-0">Pendaftaran dibuka untuk tim mahasiswa dari berbagai kota. Babak penyisihan digelar daring, sedangkan final akan berlangsung langsung di arena dengan penonton.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="kartu berita-item mt-4" data-kategori="Gadget">
+          <div class="row g-0">
+            <div class="col-12 col-md-4 col-foto"><img class="foto" src="https://loremflickr.com/800/450/smartwatch?lock=52" alt="Jam pintar di pergelangan tangan" loading="lazy" onerror="gambarCadangan(this)"></div>
+            <div class="col-12 col-md-8">
+              <div class="p-3 p-md-4">
+                <span class="badge badge-kategori mb-2">Gadget</span>
+                <h3 class="h5"><a href="#">Smartwatch Terjangkau Kini Bisa Pantau Kualitas Tidur dan Langkah Harian</a></h3>
+                <p class="meta mb-2">Redaksi Sinyal Harian, 22 Oktober 2026</p>
+                <p class="mb-0">Generasi terbaru jam pintar harga dua jutaan hadir dengan sensor yang lebih akurat dan baterai yang bertahan hampir dua minggu sekali isi daya.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="kartu berita-item mt-4" data-kategori="Edukasi">
+          <div class="row g-0">
+            <div class="col-12 col-md-4 col-foto"><img class="foto" src="https://loremflickr.com/800/450/library?lock=53" alt="Rak buku di perpustakaan" loading="lazy" onerror="gambarCadangan(this)"></div>
+            <div class="col-12 col-md-8">
+              <div class="p-3 p-md-4">
+                <span class="badge badge-kategori pink mb-2">Edukasi</span>
+                <h3 class="h5"><a href="#">Perpustakaan Digital Kampus Bisa Diakses Gratis dari Rumah</a></h3>
+                <p class="meta mb-2">Redaksi Sinyal Harian, 21 Oktober 2026</p>
+                <p class="mb-0">Mahasiswa dapat membaca jurnal dan e-book tanpa harus datang ke kampus. Cukup masuk dengan akun mahasiswa, dan koleksinya terus ditambah tiap bulan.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Sidebar Trending -->
+      <div class="col-12 col-lg-4" id="trending">
+        <h2 class="judul-section h4 mb-3">Sedang Trending</h2>
+        <aside class="kartu p-3">
+          <div class="trending-item">
+            <span class="trending-no">1</span>
+            <div>
+              <a href="#">Cara Membuat Website Responsif dengan Bootstrap 5 dalam Satu Sore</a>
+              <div class="meta">12 ribu pembaca</div>
+            </div>
+          </div>
+          <div class="trending-item">
+            <span class="trending-no">2</span>
+            <div>
+              <a href="#">Mahasiswa Sistem Informasi Banyak Dicari Perusahaan Rintisan</a>
+              <div class="meta">9 ribu pembaca</div>
+            </div>
+          </div>
+          <div class="trending-item">
+            <span class="trending-no">3</span>
+            <div>
+              <a href="#">Tata Kelola TI: Kenapa Perusahaan Kecil Pun Perlu Punya</a>
+              <div class="meta">7 ribu pembaca</div>
+            </div>
+          </div>
+          <div class="trending-item">
+            <span class="trending-no">4</span>
+            <div>
+              <a href="#">Baterai Laptop Cepat Habis? Ini Pengaturan yang Perlu Dicek</a>
+              <div class="meta">6 ribu pembaca</div>
+            </div>
+          </div>
+          <div class="trending-item">
+            <span class="trending-no">5</span>
+            <div>
+              <a href="#">Tren Warna Antarmuka 2026: Pastel Kembali Berjaya</a>
+              <div class="meta">5 ribu pembaca</div>
+            </div>
+          </div>
+          <div class="trending-item">
+            <span class="trending-no">6</span>
+            <div>
+              <a href="#">5 Aplikasi Gratis untuk Mengatur Jadwal Kuliah dan Tugas</a>
+              <div class="meta">4 ribu pembaca</div>
+            </div>
+          </div>
+          <div class="trending-item">
+            <span class="trending-no">7</span>
+            <div>
+              <a href="#">Awas Phishing Lewat WhatsApp: Ini Ciri-cirinya</a>
+              <div class="meta">4 ribu pembaca</div>
+            </div>
+          </div>
+          <div class="trending-item">
+            <span class="trending-no">8</span>
+            <div>
+              <a href="#">Kenapa Data Pribadi Perlu Dilindungi, Bahkan di Media Sosial</a>
+              <div class="meta">3 ribu pembaca</div>
+            </div>
+          </div>
+        </aside>
+
+        <h2 class="judul-section h4 mt-4 mb-3">Kategori</h2>
+        <div class="kartu p-3 kategori-list">
+          <a href="#">Gadget <span class="badge badge-kategori">24</span></a>
+          <a href="#">AI <span class="badge badge-kategori pink">18</span></a>
+          <a href="#">Keamanan <span class="badge badge-kategori">15</span></a>
+          <a href="#">Startup <span class="badge badge-kategori pink">12</span></a>
+          <a href="#">Edukasi <span class="badge badge-kategori">9</span></a>
+        </div>
+
+        <div class="kartu newsletter p-4 mt-4 text-center">
+          <div class="fs-1" aria-hidden="true">💌</div>
+          <h3 class="h5">Berita Pilihan Tiap Pagi</h3>
+          <p class="small">Dapatkan ringkasan berita teknologi langsung di email kamu.</p>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Email kamu" aria-label="Alamat email">
+            <button class="btn btn-gemas" type="button">Langganan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ GRID BERITA TERBARU (4 KARTU) ============ -->
+    <div class="row mb-3" id="terbaru">
+      <div class="col-12">
+        <h2 class="judul-section h4 mb-3">Berita Terbaru</h2>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <!-- Mobile: 1 kolom | Tablet: 2 kolom | Laptop: 4 kolom -->
+      <div class="col-12 col-md-6 col-lg-3" data-kategori="Gadget">
+        <article class="kartu h-100">
+          <img class="foto" src="https://loremflickr.com/800/450/laptop?lock=16" alt="Laptop tipis di atas meja" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-3">
+            <span class="badge badge-kategori mb-2">Laptop</span>
+            <h3 class="h6">Laptop Tipis Dengan Baterai Dua Hari Resmi Dijual</h3>
+            <p class="meta mb-0">2 jam lalu</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-kategori="Gim">
+        <article class="kartu h-100">
+          <img class="foto" src="https://loremflickr.com/800/450/gaming?lock=17" alt="Pemain sedang bermain gim" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-3">
+            <span class="badge badge-kategori pink mb-2">Gim</span>
+            <h3 class="h6">Gim Buatan Mahasiswa Lokal Tembus Satu Juta Unduhan</h3>
+            <p class="meta mb-0">5 jam lalu</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-kategori="Keamanan">
+        <article class="kartu h-100">
+          <img class="foto" src="https://loremflickr.com/800/450/cybersecurity?lock=18" alt="Ilustrasi keamanan siber dan tautan palsu" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-3">
+            <span class="badge badge-kategori mb-2">Keamanan</span>
+            <h3 class="h6">Waspada Tautan Palsu Berkedok Undian Berhadiah</h3>
+            <p class="meta mb-0">Kemarin</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-kategori="Internet">
+        <article class="kartu h-100">
+          <img class="foto" src="https://loremflickr.com/800/450/satellite?lock=19" alt="Satelit mengorbit bumi untuk layanan internet" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-3">
+            <span class="badge badge-kategori pink mb-2">Internet</span>
+            <h3 class="h6">Internet Satelit Mulai Menjangkau Desa di Kalimantan</h3>
+            <p class="meta mb-0">Kemarin</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Baris kedua: 4 kartu lagi dengan pola kolom yang sama -->
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-md-6 col-lg-3" data-kategori="Gadget">
+        <article class="kartu h-100">
+          <img class="foto" src="https://loremflickr.com/800/450/headphones?lock=20" alt="Earbuds dan headphone nirkabel" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-3">
+            <span class="badge badge-kategori mb-2">Gadget</span>
+            <h3 class="h6"><a href="#">Earbuds Murah Kini Punya Peredam Bising Aktif</a></h3>
+            <p class="meta mb-0">2 hari lalu</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-kategori="Startup">
+        <article class="kartu h-100">
+          <img class="foto" src="https://loremflickr.com/800/450/shopping?lock=21" alt="Belanja daring lewat marketplace" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-3">
+            <span class="badge badge-kategori pink mb-2">Startup</span>
+            <h3 class="h6"><a href="#">Marketplace Lokal Luncurkan Fitur Belanja Pakai Suara</a></h3>
+            <p class="meta mb-0">2 hari lalu</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-kategori="Edukasi">
+        <article class="kartu h-100">
+          <img class="foto" src="https://loremflickr.com/800/450/study?lock=22" alt="Mahasiswa belajar secara daring" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-3">
+            <span class="badge badge-kategori mb-2">Edukasi</span>
+            <h3 class="h6"><a href="#">Kursus Daring Gratis untuk Mahasiswa Sistem Informasi Dibuka</a></h3>
+            <p class="meta mb-0">3 hari lalu</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-kategori="Gadget">
+        <article class="kartu h-100">
+          <img class="foto" src="https://loremflickr.com/800/450/battery?lock=23" alt="Baterai ponsel yang sedang diisi daya" loading="lazy" onerror="gambarCadangan(this)">
+          <div class="p-3">
+            <span class="badge badge-kategori pink mb-2">Tips</span>
+            <h3 class="h6"><a href="#">Tips Merawat Baterai HP Supaya Awet Bertahun-tahun</a></h3>
+            <p class="meta mb-0">3 hari lalu</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Halaman berita" class="mt-4">
+      <ul class="pagination justify-content-center flex-wrap">
+        <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+      </ul>
+    </nav>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-dark text-white py-4 footer-gemas">
+    <div class="container">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 col-md-6 text-center text-md-start">
+          <span class="fs-5 fw-bold" style="font-family: 'Baloo 2', sans-serif;">Sinyal Harian</span>
+          <p class="mb-0 small">Kabar teknologi yang gampang dipahami, tiap hari.</p>
+        </div>
+        <div class="col-12 col-md-6 text-center text-md-end small">
+          <a href="#">Tentang Kami</a> &nbsp;|&nbsp;
+          <a href="#">Kontak</a> &nbsp;|&nbsp;
+          <a href="#">Kebijakan Privasi</a>
+          <p class="mb-0 mt-2">&copy; 2026 Sinyal Harian. Dibuat untuk praktikum Bootstrap 5.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS (untuk tombol menu di HP) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Filter berita berdasarkan kategori
+    var chips = document.querySelectorAll('.chip-kategori');
+    var beritaList = document.querySelectorAll('[data-kategori]');
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (c) {
+          c.classList.remove('aktif');
+          c.setAttribute('aria-pressed', 'false');
+        });
+        chip.classList.add('aktif');
+        chip.setAttribute('aria-pressed', 'true');
+
+        chip.classList.remove('pop');
+        void chip.offsetWidth;
+        chip.classList.add('pop');
+
+        var pilih = chip.dataset.filter;
+        beritaList.forEach(function (el) {
+          var cocok = pilih === 'Semua' || el.dataset.kategori === pilih;
+          el.classList.toggle('d-none', !cocok);
+          el.classList.remove('muncul');
+          if (cocok && pilih !== 'Semua') {
+            void el.offsetWidth;
+            el.classList.add('muncul');
+          }
+        });
+      });
+
+      chip.addEventListener('animationend', function () {
+        chip.classList.remove('pop');
+      });
+    });
+  </script>
+</body>
+</html>
